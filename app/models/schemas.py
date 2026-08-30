@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 
+
 class AnalysisResult(BaseModel):
     synthetic_score: float = 0.0     # Vansh
     speaker_mismatch: float = 0.0    # Keerthana
@@ -7,3 +8,9 @@ class AnalysisResult(BaseModel):
     transcript: str = ""
     risk_score: float = 0.0          # 0-100%
     alert: bool = False              # > 75%
+
+
+class EnrollmentRequest(BaseModel):
+    user_id: str
+    speaker_name: str
+    audio_base64: str  
