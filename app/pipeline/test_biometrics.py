@@ -13,7 +13,7 @@ async def main():
     print("-" * 40)
 
     # Impostor case: different speaker, should NOT match
-    impostor_audio = Path("myaudio2.wav").read_bytes()
+    impostor_audio = Path("sanjaudio.wav").read_bytes()
     impostor_result = await verify_speaker_voiceprint(impostor_audio)
     print("Impostor case result:", impostor_result)
 
