@@ -12,11 +12,14 @@ async def run_benchmark():
     correct = 0
     false_accepts = 0
     false_rejects = 0
+    genuine_total = 0   # increment in the genuine loop
+    impostor_total = 0  # increment in the impostor loop
 
     print("=== Genuine samples (should MATCH) ===")
     for audio_file in GENUINE_DIR.glob("*.wav"):
         result = await verify_speaker_voiceprint(audio_file.read_bytes())
         total += 1
+        genuine_total+=1
         status = "✅ correct" if result["is_match"] else "❌ FALSE REJECT"
         if not result["is_match"]:
             false_rejects += 1
@@ -28,6 +31,7 @@ async def run_benchmark():
     for audio_file in IMPOSTOR_DIR.glob("*.wav"):
         result = await verify_speaker_voiceprint(audio_file.read_bytes())
         total += 1
+        impostor_total+=1
         status = "✅ correct" if not result["is_match"] else "❌ FALSE ACCEPT"
         if result["is_match"]:
             false_accepts += 1
@@ -38,8 +42,15 @@ async def run_benchmark():
     print("\n=== Summary ===")
     print(f"Total samples: {total}")
     print(f"Accuracy: {correct/total*100:.1f}%")
-    print(f"False Accept Rate: {false_accepts}/{total}")
-    print(f"False Reject Rate: {false_rejects}/{total}")
+
+    
+
+    print(f"False Accept Rate: {false_accepts}/{impostor_total}")
+    print(f"False Reject Rate: {false_rejects}/{genuine_total}")
+
+
+    # print(f"False Accept Rate: {false_accepts}/{total}")
+    # print(f"False Reject Rate: {false_rejects}/{total}")
 
 
 asyncio.run(run_benchmark())

@@ -53,6 +53,8 @@ async def verify_speaker_voiceprint(audio_bytes: bytes) -> dict:
         print("Same speaker (model prediction):", prediction.item())
         print("Same speaker (threshold decision):", is_match)
 
+        mismatch_score= round(1.0-similarity_score,4)
+        
         return {
             "similarity_score": similarity_score,
             "is_match": is_match,
